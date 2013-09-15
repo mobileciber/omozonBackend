@@ -1,19 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5"
-         id="hybridmobile-backend">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5" id="hybridmobile-backend">
 
-    <filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
+<!-- CORS for Jetty: http://wiki.eclipse.org/Jetty/Feature/Cross_Origin_Filter -->
+<!-- http://chstrongjavablog.blogspot.de/2013/04/enabling-cors-for-jetty.html -->
+	<filter>
+		<filter-name>cross-origin</filter-name>
+		<filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
+		<init-param>
+			<param-name>allowedOrigins</param-name>
+			<param-value>* null</param-value>
+		</init-param>
+		<init-param>
+			<param-name>allowedMethods</param-name>
+			<param-value>GET,POST,DELETE,PUT,HEAD,OPTIONS</param-value>
+		</init-param>
+		<init-param>
+			<param-name>allowedHeaders</param-name>
+			<param-value>
+               origin, content-type, accept, authorization, x-requested-with
+            </param-value>
+		</init-param>
+		<init-param>
+			<param-name>supportsCredentials</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>cross-origin</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
