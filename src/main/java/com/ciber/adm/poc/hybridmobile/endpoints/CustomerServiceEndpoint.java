@@ -52,9 +52,10 @@ public class CustomerServiceEndpoint extends AbstractServiceEndpoint {
 		return ok(customer);
 	}
 
-	@POST
+	@PUT
 	@SuppressWarnings({ "unchecked" })
-	public Response createCustomer(@RequestBody String requestBody) {
+	@Path("{username}")
+	public Response createCustomer(@PathParam("username") String username, @RequestBody String requestBody) {
 		LOG.debug("requestBody=" + requestBody);
 		JSONDeserializer<Map> jsonDeserializer = new JSONDeserializer();
 		Map<String, Object> parameter = jsonDeserializer.deserialize(requestBody);
@@ -64,11 +65,11 @@ public class CustomerServiceEndpoint extends AbstractServiceEndpoint {
 				parameter.get("zip").toString(), 
 				parameter.get("city").toString(), 
 				new ArrayList<Order>());
-		customer = this.customerService.createCustomer(customer, parameter.get("username").toString(), parameter.get("passwd").toString()).getCustomer();
+		customer = this.customerService.createCustomer(customer, parameter.get("id").toString(), parameter.get("password").toString()).getCustomer();
 		return createStatusResponse(Response.Status.CREATED, "customer created with Id=" + customer.getId());
 	}
 	
-//	@PUT
+//	@POST
 //	@SuppressWarnings({ "unchecked" })
 //	public Response updateCustomer(@RequestBody String requestBody) {
 //		LOG.debug("requestBody=" + requestBody);
@@ -105,6 +106,7 @@ public class CustomerServiceEndpoint extends AbstractServiceEndpoint {
 	}
 
     private Response ok(Customer customer) {
+    	LOG.info("Customer found: " + customer.getName());
         return createOkResponseFor(customer);
     }
 

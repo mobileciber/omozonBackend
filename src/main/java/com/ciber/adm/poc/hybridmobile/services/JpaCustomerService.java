@@ -33,8 +33,8 @@ public class JpaCustomerService implements CustomerService {
         }
     }
 
-	public HybridmobileUserDetails createCustomer(Customer customer, String username, String passwd) {
-		HybridmobileUserDetails user = new HybridmobileUserDetails(username, passwd, customer);
+	public HybridmobileUserDetails createCustomer(Customer customer, String username, String password) {
+		HybridmobileUserDetails user = new HybridmobileUserDetails(username, password, customer);
 		entityRepository.persist(user);
 		return user;
 	}
