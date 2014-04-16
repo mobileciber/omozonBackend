@@ -7,8 +7,6 @@ import flexjson.transformer.DateTransformer;
 
 import javax.ws.rs.core.Response;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class AbstractServiceEndpoint {
 
@@ -20,9 +18,7 @@ public abstract class AbstractServiceEndpoint {
     }
 
     protected Response createStatusResponse(Response.Status status, String statusMessage) {
-    	JSONSerializer jsonSerializer = new JSONSerializer();
-    	Map<String, Object> parameter = new HashMap<String, Object>();
-    	parameter.put("statusMessage", statusMessage);
+    	//@ToDo: Generate message with JSONSerializer
     	statusMessage = "{\"message\" : \"" + statusMessage + "\"}";
         return Response
                 .status(status)
