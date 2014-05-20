@@ -17,8 +17,15 @@
     <jaxrs:server id="customerService" address="/">
         <jaxrs:serviceBeans>
             <ref bean="customerServiceEndpoint"/>
+            <ref bean="storeServiceEndpoint"/>
             <!--ref bean="rentalServiceEndpoint"/-->
         </jaxrs:serviceBeans>
     </jaxrs:server>
+    
+    <!-- <jaxrs:server id="storeService" address="/">
+        <jaxrs:serviceBeans>
+            <ref bean="storeServiceEndpoint"/>
+        </jaxrs:serviceBeans>
+    </jaxrs:server> -->
 
 </beans>

@@ -1,9 +1,12 @@
 package com.ciber.adm.poc.hybridmobile.endpoints;
 
 
+import static java.lang.String.format;
+
 import com.ciber.adm.poc.hybridmobile.domain.*;
 import com.ciber.adm.poc.hybridmobile.services.NotAvailableException;
 import com.ciber.adm.poc.hybridmobile.services.RentalService;
+import com.ciber.adm.poc.hybridmobile.services.StoreService;
 import com.ciber.adm.poc.hybridmobile.util.AuthenticationService;
 import com.ciber.adm.poc.hybridmobile.util.DateUtil;
 import flexjson.JSONDeserializer;
@@ -20,62 +23,43 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Path("stores")
 @Produces("application/json")
 public class StoreServiceEndpoint extends AbstractServiceEndpoint {
 
     private static final Log LOG = LogFactory.getLog(StoreServiceEndpoint.class);
 
-//    @Autowired
-//    private AuthenticationService authenticationService;
-//
-//    @Autowired
-//    private RentalService rentalService;
-//
-//    @GET
-//    @Path("cities")
-//    public Response findCities() {
-//        return createOkResponseFor(this.rentalService.findCities());
-//    }
-//
-//    @GET
-//    @Path("availableCars")
-//    public Response findAvailableCars(@QueryParam("cityId") long cityId,
-//                                      @QueryParam("startDate") String startDate,
-//                                      @QueryParam("endDate") String endDate,
-//                                      @QueryParam("maxPrice") BigDecimal maxPrice) {
-//        List<Car> cars = this.rentalService.findAvailableCars(cityId, DateUtil.toDate(startDate), DateUtil.toDate(endDate), maxPrice);
-//        return createOkResponseFor(cars);
-//    }
-//
-//    @GET
-//    @Path("cartypes")
-//    public Response findCarTypes() {
-//        List<String> carTypes = this.rentalService.findCarTypes();
-//        return createOkResponseFor(carTypes);
-//    }
-//
-//    @POST
-//    @Path("rental")
-//    @SuppressWarnings({"unchecked"})
-//    public Response rentCar(@RequestBody String requestBody) {
-//        LOG.debug("requestBody=" + requestBody);
-//        JSONDeserializer<Map> jsonDeserializer = new JSONDeserializer();
-//        Map<String, Object> parameter = jsonDeserializer.deserialize(requestBody);
-//        Rental rental;
-//        try {
-//            rental = this.rentalService.rentCar(authenticationService.getCurrentUser().getCustomer(), Long.parseLong(parameter.get("carId").toString()), DateUtil.toDate(parameter.get("startDate").toString()), DateUtil.toDate(parameter.get("endDate").toString()));
-//        } catch (NotAvailableException nAE) {
-//            return createStatusResponse(Response.Status.CONFLICT, nAE.getErrorMessge());
-//        }
-//        return createStatusResponse(Response.Status.CREATED, "rental created with Id=" + rental.getId());
-//    }
-//
-//    @GET
-//    @Path("rentals")
-//    public Response findRentalHistoryForCustomer(@QueryParam("customerId") Long customerId) {
-//        List<Rental> history = rentalService.findRentalHistoryForCustomer(customerId);
-//        return createOkResponseFor(history);
-//    }
-
-
+    @Autowired
+    private StoreService storeService;
+    
+    @GET
+    @Path("")
+    public Response getStores(){
+    	List<Store> stores = storeService.getStores();
+    	if (stores == null) return notFound("");
+    	return ok(stores);
+    }
+    
+    @GET
+    @Path("{city}")
+    public Response getStore(@PathParam("city") String city){
+    	Store store = storeService.getStore(city);
+    	if (store == null) return notFound(city);
+    	return ok(store);
+    }
+    
+    private Response notFound(String storeName) {
+		return createStatusResponse(Response.Status.NOT_FOUND,
+				format("no store with name '%s' found.", storeName));
+	}
+    
+    private Response ok(Store store) {
+    	LOG.info("Store found: " + store.getCity());
+        return createOkResponseFor(store);
+    }
+    
+    private Response ok(List<Store> stores) {
+    	LOG.info("Stores found: " + stores.size());
+        return createOkResponseFor(stores);
+    }
 }

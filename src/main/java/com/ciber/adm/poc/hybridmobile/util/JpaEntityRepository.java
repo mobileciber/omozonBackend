@@ -35,6 +35,8 @@ public class JpaEntityRepository implements EntityRepository {
 //        entityManager.createQuery("delete from RylcUserDetails ").executeUpdate();
         LOG.debug("delete customers...");
         entityManager.createQuery("delete from Customer").executeUpdate();
+        LOG.debug("delete stores...");
+        entityManager.createQuery("delete from Store").executeUpdate();
     }
 
     @Override
