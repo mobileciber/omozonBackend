@@ -18,6 +18,20 @@ public class JpaStoreService implements StoreService {
     private EntityManager entityManager;
 	
 	@Transactional(readOnly = true)
+	public Store getStore(int id) {
+		try{
+			Store store = (Store) entityManager
+					.createQuery("select s from Store s where s.id = :id")
+					.setParameter("id", id)
+					.getSingleResult();
+			return store;
+		}
+		catch(NoResultException ex){
+			return null;
+		}
+	}
+	
+	@Transactional(readOnly = true)
 	public Store getStore(String city) {
 		try{
 			Store store = (Store) entityManager

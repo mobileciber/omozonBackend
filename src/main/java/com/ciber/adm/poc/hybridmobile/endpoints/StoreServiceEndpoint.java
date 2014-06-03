@@ -41,6 +41,14 @@ public class StoreServiceEndpoint extends AbstractServiceEndpoint {
     }
     
     @GET
+    @Path("{id}")
+    public Response getStore(@PathParam("id") int id){
+    	Store store = storeService.getStore(id);
+    	if (store == null) return notFound(Integer.toString(id));
+    	return ok(store);
+    }
+    
+    @GET
     @Path("{city}")
     public Response getStore(@PathParam("city") String city){
     	Store store = storeService.getStore(city);

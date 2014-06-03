@@ -134,17 +134,17 @@ public class BootstrapDataPopulator implements InitializingBean {
     }
     
     private void createStores(){
-    	createStore("Schildergasse 387", "Cologne", 50667, "10:00-20:00", "9:00-20:00");
-    	createStore("Kö 155", "Düsseldorf", 40215, "11:00-21:00", "9:00-22:00");
-    	createStore("Kurfürstendamm 567", "Berlin", 10115, "12:00-20:00", "11:00-21:00");
-    	createStore("Viktualienmarkt 789", "München", 80331, null, null);
+    	createStore("Schildergasse 387", "Cologne", 50667, 50.9363932, 6.9525044, "10:00-20:00", "9:00-20:00");
+    	createStore("Kö 155", "Düsseldorf", 40215, 51.2176592, 6.7789186, "11:00-21:00", "9:00-22:00");
+    	createStore("Kurfürstendamm 567", "Berlin", 10115, 52.499237, 13.366344, "12:00-20:00", "11:00-21:00");
+    	createStore("Viktualienmarkt 789", "München", 80331, 48.1355235, 11.5763976, null, null);
 //    	for(int i = 0; i < 10; i++){
 //    		createStore("Store " + i, "opening times for Store " + i);
 //    	}
     }
     
-    private void createStore(String street, String city, int zipCode, String openingTimesMoFr, String openingTimesSa) {
-    	Store store = new Store(street, city, zipCode, openingTimesMoFr, openingTimesSa);
+    private void createStore(String street, String city, int zipCode, double latitude, double longitude, String openingTimesMoFr, String openingTimesSa) {
+    	Store store = new Store(street, city, zipCode, latitude, longitude, openingTimesMoFr, openingTimesSa);
     	entityRepository.persist(store);
     }
 

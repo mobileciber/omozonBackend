@@ -26,6 +26,12 @@ public class Store {
 	@Basic(optional = false)
 	private int zipCode;
 	
+	@Basic(optional = false)
+	private double latitude;
+	
+	@Basic(optional = false)
+	private double longitude;
+	
 	@Basic(optional = true)
 	private String openingTimesMoFr;
 	
@@ -36,12 +42,14 @@ public class Store {
 		
 	}
 	
-	public Store(String street, String city, int zipCode, String openingTimesMoFr, String openingTimesSa) {
+	public Store(String street, String city, int zipCode, double latitude, double longitude, String openingTimesMoFr, String openingTimesSa) {
 		this.street = street;
 		this.city = city;
 		this.zipCode = zipCode;
 		this.openingTimesMoFr = openingTimesMoFr;
 		this.openingTimesSa = openingTimesSa;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	@Override
@@ -96,5 +104,21 @@ public class Store {
 
 	public void setOpeningTimesSa(String openingTimesSa) {
 		this.openingTimesSa = openingTimesSa;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 }
